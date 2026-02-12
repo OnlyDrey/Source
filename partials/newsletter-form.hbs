@@ -1,0 +1,102 @@
+{{!-- Newsletter Subscribe Form --}}
+<div class="newsletter-wrapper max-w-md mx-auto">
+    <form data-members-form="subscribe" class="newsletter-form">
+        <input
+            data-members-email
+            type="email"
+            class="newsletter-input"
+            placeholder="Your email address"
+            required
+            autocomplete="email"
+        >
+        <button type="submit" class="newsletter-button">
+            <span class="button-text">Subscribe</span>
+            <span class="button-loading hidden">
+                <span class="spinner"></span>
+            </span>
+        </button>
+    </form>
+
+    {{!-- Success Message --}}
+    <div data-members-success class="hidden mt-4 p-4 bg-green-100 dark:bg-green-900/30 border border-green-500 rounded text-green-700 dark:text-green-300 text-center">
+        <strong>Success!</strong> Check your inbox for the confirmation email.
+    </div>
+
+    {{!-- Error Message --}}
+    <div data-members-error class="hidden mt-4 p-4 bg-red-100 dark:bg-red-900/30 border border-red-500 rounded text-red-700 dark:text-red-300 text-center">
+        <strong>Error!</strong> <span class="error-message">Please try again.</span>
+    </div>
+</div>
+
+<script>
+(function() {
+    'use strict';
+
+    // Newsletter form handler
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('[data-members-form="subscribe"]');
+
+        if (!form) return;
+
+        const emailInput = form.querySelector('[data-members-email]');
+        const submitButton = form.querySelector('button[type="submit"]');
+        const buttonText = submitButton.querySelector('.button-text');
+        const buttonLoading = submitButton.querySelector('.button-loading');
+        const successMessage = document.querySelector('[data-members-success]');
+        const errorMessage = document.querySelector('[data-members-error]');
+        const errorText = errorMessage?.querySelector('.error-message');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const email = emailInput.value.trim();
+
+            if (!email) return;
+
+            // Show loading state
+            buttonText.classList.add('hidden');
+            buttonLoading.classList.remove('hidden');
+            submitButton.disabled = true;
+
+            // Hide previous messages
+            successMessage?.classList.add('hidden');
+            errorMessage?.classList.add('hidden');
+
+            try {
+                // Submit to Ghost Members API
+                const response = await fetch('/members/api/send-magic-link/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        emailType: 'subscribe'
+                    })
+                });
+
+                if (response.ok) {
+                    // Success
+                    successMessage?.classList.remove('hidden');
+                    emailInput.value = '';
+                } else {
+                    // Error
+                    const data = await response.json();
+                    throw new Error(data.errors?.[0]?.message || 'Subscription failed');
+                }
+            } catch (error) {
+                // Show error
+                if (errorText) {
+                    errorText.textContent = error.message || 'Please try again.';
+                }
+                errorMessage?.classList.remove('hidden');
+            } finally {
+                // Reset button state
+                buttonText.classList.remove('hidden');
+                buttonLoading.classList.add('hidden');
+                submitButton.disabled = false;
+            }
+        });
+    });
+})();
+</script>

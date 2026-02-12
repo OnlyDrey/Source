@@ -1,0 +1,25 @@
+{{!-- Search Modal --}}
+<div class="search-modal">
+    <div class="search-modal-content">
+        {{!-- Search Input --}}
+        <input
+            type="text"
+            class="search-input"
+            placeholder="Search posts... (Press Esc to close)"
+            autocomplete="off"
+            autofocus
+        >
+
+        {{!-- Search Results --}}
+        <div class="search-results">
+            <div style="padding: 2rem; text-align: center; color: var(--color-text-muted);">
+                Type to search posts...
+                <div class="mt-4 text-xs">
+                    <kbd class="px-2 py-1 bg-[var(--color-surface)] border border-[var(--color-border)] rounded">⌘</kbd> +
+                    <kbd class="px-2 py-1 bg-[var(--color-surface)] border border-[var(--color-border)] rounded">K</kbd>
+                    to open search
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

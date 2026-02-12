@@ -1,64 +1,61 @@
 {{!< default}}
-{{!-- The tag above means: insert everything in this file into the body of the default.hbs template --}}
+{{!-- Author Archive Template --}}
 
-<main class="gh-main gh-outer">
-
+<main class="gh-main px-6 py-12">
     {{#author}}
-        <section class="gh-archive{{#if @custom.show_publication_info_sidebar}} has-sidebar{{/if}} gh-inner">
-            <div class="gh-archive-inner">
-                <div class="gh-archive-wrapper">
-                    <h1 class="gh-article-title is-title">
-                        {{#if website}}
-                            <a class="gh-author-social-link" href="{{website}}" target="_blank" rel="noopener">{{name}}</a>
-                        {{else}}
-                            {{name}}
-                        {{/if}}
-                    </h1>
-                    {{#if bio}}
-                        <p class="gh-article-excerpt">{{bio}}</p>
-                    {{/if}}
-                    <footer class="gh-author-meta">
-                        <div class="gh-author-social">
-                            {{#if twitter}}
-                                <a class="gh-author-social-link" href="{{social_url type="twitter"}}" target="_blank" rel="noopener">{{> "icons/twitter"}}</a>
-                            {{/if}}
-                            {{#if facebook}}
-                                <a class="gh-author-social-link" href="{{social_url type="facebook"}}" target="_blank" rel="noopener">{{> "icons/facebook"}}</a>
-                            {{/if}}
-                            {{#if linkedin}}
-                                <a class="gh-author-social-link" href="{{social_url type="linkedin"}}" target="_blank" rel="noopener">{{> "icons/linkedin"}}</a>
-                            {{/if}}
-                            {{#if bluesky}}
-                                <a class="gh-author-social-link" href="{{social_url type="bluesky"}}" target="_blank" rel="noopener">{{> "icons/bluesky"}}</a>
-                            {{/if}}
-                            {{#if threads}}
-                                <a class="gh-author-social-link" href="{{social_url type="threads"}}" target="_blank" rel="noopener">{{> "icons/threads"}}</a>
-                            {{/if}}
-                            {{#if mastodon}}
-                                <a class="gh-author-social-link" href="{{social_url type="mastodon"}}" target="_blank" rel="noopener">{{> "icons/mastodon"}}</a>
-                            {{/if}}
-                            {{#if tiktok}}
-                                <a class="gh-author-social-link" href="{{social_url type="tiktok"}}" target="_blank" rel="noopener">{{> "icons/tiktok"}}</a>
-                            {{/if}}
-                            {{#if youtube}}
-                                <a class="gh-author-social-link" href="{{social_url type="youtube"}}" target="_blank" rel="noopener">{{> "icons/youtube"}}</a>
-                            {{/if}}
-                            {{#if instagram}}
-                                <a class="gh-author-social-link" href="{{social_url type="instagram"}}" target="_blank" rel="noopener">{{> "icons/instagram"}}</a>
-                            {{/if}}
-                        </div>
-                        {{#if location}}
-                            <div class="gh-author-location">{{location}}</div>
-                        {{/if}}
-                    </footer>
-                </div>
-                {{#if profile_image}}
-                    <img class="gh-article-image" src="{{img_url profile_image size="s"}}" alt="{{name}}">
+        <header class="max-w-4xl mx-auto text-center mb-16">
+            {{#if profile_image}}
+                <img src="{{img_url profile_image size="m"}}" alt="{{name}}" class="w-32 h-32 rounded-full mx-auto mb-6 border-4 border-[var(--color-border)]">
+            {{/if}}
+
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                {{#if website}}
+                    <a href="{{website}}" target="_blank" rel="noopener" class="text-[var(--color-text)] hover:text-[var(--ghost-accent-color)] transition-colors">
+                        {{name}}
+                    </a>
+                {{else}}
+                    {{name}}
+                {{/if}}
+            </h1>
+
+            {{#if bio}}
+                <p class="text-xl text-[var(--color-text-muted)] mb-6 max-w-2xl mx-auto">{{bio}}</p>
+            {{/if}}
+
+            {{#if location}}
+                <div class="text-[var(--color-text-muted)] mb-4">📍 {{location}}</div>
+            {{/if}}
+
+            {{!-- Social Links --}}
+            <div class="flex justify-center gap-4 flex-wrap">
+                {{#if twitter}}
+                    <a href="{{social_url type="twitter"}}" target="_blank" rel="noopener" class="text-[var(--color-text-muted)] hover:text-[var(--ghost-accent-color)] transition-colors" aria-label="Twitter">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                    </a>
+                {{/if}}
+                {{#if facebook}}
+                    <a href="{{social_url type="facebook"}}" target="_blank" rel="noopener" class="text-[var(--color-text-muted)] hover:text-[var(--ghost-accent-color)] transition-colors" aria-label="Facebook">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </a>
+                {{/if}}
+                {{#if website}}
+                    <a href="{{website}}" target="_blank" rel="noopener" class="text-[var(--color-text-muted)] hover:text-[var(--ghost-accent-color)] transition-colors" aria-label="Website">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                    </a>
                 {{/if}}
             </div>
-        </section>
+        </header>
     {{/author}}
-    
-    {{> "components/post-list" feed="archive" postFeedStyle=@custom.post_feed_style showTitle=false showSidebar=@custom.show_publication_info_sidebar}}
 
+    {{!-- Author Posts --}}
+    <div class="max-w-7xl mx-auto">
+        <h2 class="text-2xl font-bold mb-8">Posts by {{author.name}}</h2>
+        <div class="post-grid-3">
+            {{#foreach posts}}
+                {{> "post-card"}}
+            {{/foreach}}
+        </div>
+
+        {{> "pagination"}}
+    </div>
 </main>

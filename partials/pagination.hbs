@@ -1,0 +1,74 @@
+{{!-- Pagination --}}
+{{#if pagination}}
+    <nav class="pagination" role="navigation" aria-label="Pagination">
+        {{#if pagination.prev}}
+            <a href="{{page_url pagination.prev}}" class="pagination-prev" aria-label="Previous page">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Previous
+            </a>
+        {{else}}
+            <span class="pagination-prev disabled opacity-50 cursor-not-allowed">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Previous
+            </span>
+        {{/if}}
+
+        <span class="pagination-info">
+            Page {{pagination.page}} of {{pagination.pages}}
+        </span>
+
+        {{#if pagination.next}}
+            <a href="{{page_url pagination.next}}" class="pagination-next" aria-label="Next page">
+                Next
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </a>
+        {{else}}
+            <span class="pagination-next disabled opacity-50 cursor-not-allowed">
+                Next
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </span>
+        {{/if}}
+    </nav>
+{{/if}}
+
+<style>
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 3rem;
+    }
+
+    .pagination a,
+    .pagination span {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border: 1px solid var(--color-border);
+        border-radius: 0.5rem;
+        text-decoration: none;
+        color: var(--color-text);
+        transition: all 0.2s ease;
+    }
+
+    .pagination a:hover:not(.disabled) {
+        border-color: var(--ghost-accent-color);
+        color: var(--ghost-accent-color);
+    }
+
+    .pagination-info {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+        color: var(--color-text-muted);
+    }
+</style>

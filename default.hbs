@@ -6,67 +6,81 @@
     <title>{{meta_title}}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    {{!-- Preload main styles and scripts for better performance --}}
-    <link rel="preload" as="style" href="{{asset "built/screen.css"}}">
-    <link rel="preload" as="script" href="{{asset "built/source.js"}}">
-    
-    {{!-- Fonts are preloaded and defined in the default template to avoid layout shift --}}
-    {{> "typography/fonts"}}
 
-    {{!-- Theme assets - use the {{asset}} helper to reference styles & scripts, this will take care of caching and cache-busting automatically --}}
+    {{!-- Tailwind CSS v4 Browser Version --}}
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    {{!-- Theme assets - use the {{asset}} helper to reference styles & scripts --}}
     <link rel="stylesheet" type="text/css" href="{{asset "built/screen.css"}}">
+    <link rel="stylesheet" type="text/css" href="{{asset "css/custom.css"}}">
 
-    {{!-- Custom background color --}}
-    <style>
-        :root {
-            --background-color: {{@custom.site_background_color}}
-        }
-    </style>
-
+    {{!-- Theme initialization script - MUST run before body to prevent FOUC --}}
     <script>
-        /* The script for calculating the color contrast has been taken from
-        https://gomakethings.com/dynamically-changing-the-text-color-based-on-background-color-contrast-with-vanilla-js/ */
-        var accentColor = getComputedStyle(document.documentElement).getPropertyValue('--background-color');
-        accentColor = accentColor.trim().slice(1);
+        (function() {
+            // Get stored theme or use system preference
+            var storedTheme = localStorage.getItem('akio-theme');
+            var systemTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            var theme = storedTheme || '{{@custom.color_scheme}}' || systemTheme;
 
-        if (accentColor.length === 3) {
-            accentColor = accentColor[0] + accentColor[0] + accentColor[1] + accentColor[1] + accentColor[2] + accentColor[2];
-        }
+            // Handle "System" option
+            if (theme === 'System') {
+                theme = systemTheme;
+            }
 
-        var r = parseInt(accentColor.substr(0, 2), 16);
-        var g = parseInt(accentColor.substr(2, 2), 16);
-        var b = parseInt(accentColor.substr(4, 2), 16);
-        var yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
-        var textColor = (yiq >= 128) ? 'dark' : 'light';
-
-        document.documentElement.className = `has-${textColor}-text`;
+            // Apply theme immediately
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
     </script>
 
-    {{!-- This tag outputs all your advanced SEO meta, structured data, and other important settings, it should always be the last tag before the closing head tag --}}
+    {{!-- This tag outputs all your advanced SEO meta, structured data, and other important settings --}}
     {{ghost_head}}
 
 </head>
-<body class="{{body_class}} has-{{#match @custom.title_font "Elegant serif"}}serif{{else match @custom.title_font "Consistent mono"}}mono{{else}}sans{{/match}}-title has-{{#match @custom.body_font "Elegant serif"}}serif{{else}}sans{{/match}}-body">
+<body class="{{body_class}} antialiased"
+      data-show-particles="{{@custom.show_particles}}"
+      data-particle-count="{{@custom.particle_count}}"
+      data-post-layout="{{@custom.post_layout}}"
+      data-show-reading-progress="{{@custom.show_reading_progress}}"
+      data-show-toc="{{@custom.show_toc}}">
+
+{{!-- Particles Canvas for Homepage --}}
+{{#is "home"}}
+    <canvas id="particles-canvas"></canvas>
+{{/is}}
+
+{{!-- Reading Progress Bar for Posts --}}
+{{#is "post"}}
+    {{#if @custom.show_reading_progress}}
+        <div id="reading-progress"></div>
+    {{/if}}
+{{/is}}
 
 <div class="gh-viewport">
-    
-    {{> "components/navigation" navigationLayout=@custom.navigation_layout}}
 
+    {{!-- Navigation --}}
+    {{> "navbar"}}
+
+    {{!-- Main Content --}}
     {{{body}}}
-    
-    {{> "components/footer"}}
-    
+
+    {{!-- Footer --}}
+    {{> "footer"}}
+
 </div>
+
+{{!-- Search Modal --}}
+{{> "search-modal"}}
 
 {{#is "post, page"}}
     {{> "lightbox"}}
 {{/is}}
 
-{{!-- Scripts - handle responsive videos, infinite scroll, and navigation dropdowns --}}
+{{!-- Scripts - load in order --}}
 <script src="{{asset "built/source.js"}}"></script>
+<script src="{{asset "js/particles.js"}}"></script>
+<script src="{{asset "js/theme-main.js"}}"></script>
 
-{{!-- Ghost outputs required functional scripts with this tag, it should always be the last thing before the closing body tag --}}
+{{!-- Ghost outputs required functional scripts with this tag --}}
 {{ghost_foot}}
 
 </body>

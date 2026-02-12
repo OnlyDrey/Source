@@ -1,0 +1,159 @@
+{{!-- Responsive Navigation Bar --}}
+<nav class="site-nav bg-transparent py-4 px-6 transition-all duration-300">
+    <div class="max-w-7xl mx-auto">
+        {{!-- Logo Center Layout --}}
+        {{#match @custom.navigation_layout "Logo Center"}}
+            <div class="flex items-center justify-between">
+                {{!-- Left Navigation --}}
+                <div class="hidden md:flex items-center space-x-6">
+                    {{#if @site.navigation}}
+                        {{#foreach @site.navigation limit="3"}}
+                            <a href="{{url}}" class="text-[var(--color-text)] hover:text-[var(--ghost-accent-color)] transition-colors duration-200">
+                                {{label}}
+                            </a>
+                        {{/foreach}}
+                    {{/if}}
+                </div>
+
+                {{!-- Logo (Center) --}}
+                <div class="site-nav-logo flex-shrink-0">
+                    {{#if @site.logo}}
+                        <a href="{{@site.url}}" class="block">
+                            <img src="{{@site.logo}}" alt="{{@site.title}}" class="h-12 w-auto transition-all duration-300">
+                        </a>
+                    {{else}}
+                        <a href="{{@site.url}}" class="text-3xl font-bold text-[var(--color-text)] tracking-wide transition-all duration-300">
+                            {{@site.title}}
+                        </a>
+                    {{/if}}
+                </div>
+
+                {{!-- Right Navigation & Actions --}}
+                <div class="hidden md:flex items-center space-x-6">
+                    {{!-- Remaining Nav Items --}}
+                    {{#if @site.navigation}}
+                        {{#foreach @site.navigation limit="3" from="4"}}
+                            <a href="{{url}}" class="text-[var(--color-text)] hover:text-[var(--ghost-accent-color)] transition-colors duration-200">
+                                {{label}}
+                            </a>
+                        {{/foreach}}
+                    {{/if}}
+
+                    {{!-- Search Button --}}
+                    <button class="search-toggle p-2 rounded hover:bg-[var(--color-surface)] transition-colors duration-200" aria-label="Search">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </button>
+
+                    {{!-- Theme Toggle --}}
+                    <button class="theme-toggle p-2 rounded hover:bg-[var(--color-surface)] transition-colors duration-200" aria-label="Toggle theme">
+                        <span class="text-xl">🌙</span>
+                    </button>
+                </div>
+
+                {{!-- Mobile Menu Toggle --}}
+                <button class="mobile-menu-toggle md:hidden" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        {{/match}}
+
+        {{!-- Logo Left Layout --}}
+        {{#match @custom.navigation_layout "Logo Left"}}
+            <div class="flex items-center justify-between">
+                {{!-- Logo (Left) --}}
+                <div class="site-nav-logo flex-shrink-0">
+                    {{#if @site.logo}}
+                        <a href="{{@site.url}}" class="block">
+                            <img src="{{@site.logo}}" alt="{{@site.title}}" class="h-12 w-auto transition-all duration-300">
+                        </a>
+                    {{else}}
+                        <a href="{{@site.url}}" class="text-3xl font-bold text-[var(--color-text)] tracking-wide transition-all duration-300">
+                            {{@site.title}}
+                        </a>
+                    {{/if}}
+                </div>
+
+                {{!-- Navigation & Actions --}}
+                <div class="hidden md:flex items-center space-x-6">
+                    {{!-- Nav Items --}}
+                    {{#if @site.navigation}}
+                        {{#foreach @site.navigation}}
+                            <a href="{{url}}" class="text-[var(--color-text)] hover:text-[var(--ghost-accent-color)] transition-colors duration-200">
+                                {{label}}
+                            </a>
+                        {{/foreach}}
+                    {{/if}}
+
+                    {{!-- Search Button --}}
+                    <button class="search-toggle p-2 rounded hover:bg-[var(--color-surface)] transition-colors duration-200" aria-label="Search">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </button>
+
+                    {{!-- Theme Toggle --}}
+                    <button class="theme-toggle p-2 rounded hover:bg-[var(--color-surface)] transition-colors duration-200" aria-label="Toggle theme">
+                        <span class="text-xl">🌙</span>
+                    </button>
+                </div>
+
+                {{!-- Mobile Menu Toggle --}}
+                <button class="mobile-menu-toggle md:hidden" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        {{/match}}
+    </div>
+
+    {{!-- Mobile Menu --}}
+    <div class="mobile-menu fixed inset-0 bg-[var(--color-bg)] z-50 pt-20 px-6 transform translate-x-full transition-transform duration-300 md:hidden">
+        <div class="flex flex-col space-y-6">
+            {{!-- Mobile Nav Items --}}
+            {{#if @site.navigation}}
+                {{#foreach @site.navigation}}
+                    <a href="{{url}}" class="text-2xl text-[var(--color-text)] hover:text-[var(--ghost-accent-color)] transition-colors duration-200">
+                        {{label}}
+                    </a>
+                {{/foreach}}
+            {{/if}}
+
+            {{!-- Mobile Actions --}}
+            <div class="flex items-center space-x-4 pt-6 border-t border-[var(--color-border)]">
+                {{!-- Mobile Search --}}
+                <button class="search-toggle p-3 rounded bg-[var(--color-surface)] hover:bg-[var(--ghost-accent-color)] transition-colors duration-200" aria-label="Search">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </button>
+
+                {{!-- Mobile Theme Toggle --}}
+                <button class="theme-toggle p-3 rounded bg-[var(--color-surface)] hover:bg-[var(--ghost-accent-color)] transition-colors duration-200" aria-label="Toggle theme">
+                    <span class="text-2xl">🌙</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<style>
+    /* Mobile menu styles */
+    .mobile-menu.active {
+        transform: translateX(0);
+    }
+
+    /* Logo animation on scroll */
+    .site-nav.scrolled .site-nav-logo img {
+        height: 2rem;
+    }
+
+    .site-nav.scrolled .site-nav-logo a {
+        font-size: 2rem;
+        letter-spacing: 0.05em;
+    }
+</style>

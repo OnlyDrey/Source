@@ -1,6 +1,91 @@
 {{!< default}}
-{{!-- The tag above means: insert everything in this file into the body of the default.hbs template --}}
+{{!-- Homepage with multiple layout options --}}
 
-<main class="gh-main">
-    {{> "components/post-list" feed="index" postFeedStyle=@custom.post_feed_style showTitle=true showSidebar=@custom.show_publication_info_sidebar}}
+<main class="gh-main px-6 py-12">
+    {{!-- Hero + Grid Layout --}}
+    {{#match @custom.homepage_layout "Hero + Grid"}}
+        {{#if @custom.show_hero_title}}
+            <section class="hero-section">
+                <div class="max-w-5xl mx-auto text-center">
+                    <h1 class="hero-title">
+                        {{#if @site.description}}
+                            {{@site.description}}
+                        {{else}}
+                            {{@site.title}}
+                        {{/if}}
+                    </h1>
+                </div>
+            </section>
+        {{/if}}
+
+        <div class="max-w-7xl mx-auto mt-16">
+            <div class="post-grid-{{@custom.posts_per_row}}">
+                {{#foreach posts}}
+                    {{> "post-card"}}
+                {{/foreach}}
+            </div>
+
+            {{> "pagination"}}
+        </div>
+    {{/match}}
+
+    {{!-- Grid Only Layout --}}
+    {{#match @custom.homepage_layout "Grid Only"}}
+        <div class="max-w-7xl mx-auto">
+            <header class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">{{@site.title}}</h1>
+                {{#if @site.description}}
+                    <p class="text-xl text-[var(--color-text-muted)]">{{@site.description}}</p>
+                {{/if}}
+            </header>
+
+            <div class="post-grid-{{@custom.posts_per_row}}">
+                {{#foreach posts}}
+                    {{> "post-card"}}
+                {{/foreach}}
+            </div>
+
+            {{> "pagination"}}
+        </div>
+    {{/match}}
+
+    {{!-- List Layout --}}
+    {{#match @custom.homepage_layout "List"}}
+        <div class="max-w-4xl mx-auto">
+            <header class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">{{@site.title}}</h1>
+                {{#if @site.description}}
+                    <p class="text-xl text-[var(--color-text-muted)]">{{@site.description}}</p>
+                {{/if}}
+            </header>
+
+            <div class="space-y-8">
+                {{#foreach posts}}
+                    {{> "post-card-list"}}
+                {{/foreach}}
+            </div>
+
+            {{> "pagination"}}
+        </div>
+    {{/match}}
+
+    {{!-- Masonry Layout --}}
+    {{#match @custom.homepage_layout "Masonry"}}
+        <div class="max-w-7xl mx-auto">
+            <header class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">{{@site.title}}</h1>
+                {{#if @site.description}}
+                    <p class="text-xl text-[var(--color-text-muted)]">{{@site.description}}</p>
+                {{/if}}
+            </header>
+
+            <div class="post-masonry">
+                {{#foreach posts}}
+                    {{> "post-card"}}
+                {{/foreach}}
+            </div>
+
+            {{> "pagination"}}
+        </div>
+    {{/match}}
 </main>
