@@ -80,6 +80,35 @@ body {
     border-color: var(--ghost-accent-color) !important;
 }
 
+/* Color Utilities for Templates */
+.text-color {
+    color: var(--color-text);
+}
+
+.text-muted {
+    color: var(--color-text-muted);
+}
+
+.bg-surface {
+    background-color: var(--color-surface);
+}
+
+.bg-base {
+    background-color: var(--color-bg);
+}
+
+.border-color {
+    border-color: var(--color-border);
+}
+
+.hover-accent:hover {
+    color: var(--ghost-accent-color);
+}
+
+.hover-bg-surface:hover {
+    background-color: var(--color-surface);
+}
+
 /* Text Truncation */
 .line-clamp-2 {
     display: -webkit-box;
