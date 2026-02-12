@@ -1,15 +1,13 @@
-<section class="gh-header is-{{#match headerStyle "Magazine"}}magazine{{else match headerStyle "Highlight"}}highlight{{else}}classic{{/match}}{{#if @custom.background_image}}{{#if @site.cover_image}} has-image{{/if}}{{/if}} gh-outer">
+<section class="gh-header is-{{#match headerStyle "Magazine"}}magazine{{else match headerStyle "Highlight"}}highlight{{else}}classic{{/match}}{{#if @site.cover_image}} has-image{{/if}} gh-outer">
 
     {{!-- Background image --}}
-    {{#if @custom.background_image}}
-        {{#match headerStyle "!=" "Magazine"}}
-        {{#match headerStyle "!=" "Highlight"}}
-            {{#if @site.cover_image}}
-                <img class="gh-header-image" src="{{@site.cover_image}}" alt="{{@site.title}}">
-            {{/if}}
-        {{/match}}
-        {{/match}}
-    {{/if}}
+    {{#match headerStyle "!=" "Magazine"}}
+    {{#match headerStyle "!=" "Highlight"}}
+        {{#if @site.cover_image}}
+            <img class="gh-header-image" src="{{@site.cover_image}}" alt="{{@site.title}}">
+        {{/if}}
+    {{/match}}
+    {{/match}}
 
     <div class="gh-header-inner gh-inner">
 
@@ -26,15 +24,11 @@
                 {{/foreach}}
             </div>
             <div class="gh-header-right">
-                {{#if @custom.show_featured_posts}}
-                    {{> "components/featured" showFeatured=@custom.show_featured_posts limit=6}}
-                {{else}}
-                    <div class="gh-featured-feed">
-                        {{#foreach posts from="5" limit="6"}}
-                            {{> "post-card" imageSizes="80px"}}
-                        {{/foreach}}
-                    </div>
-                {{/if}}
+                <div class="gh-featured-feed">
+                    {{#foreach posts from="5" limit="6"}}
+                        {{> "post-card" imageSizes="80px"}}
+                    {{/foreach}}
+                </div>
             </div>
         {{/match}}
 
@@ -63,13 +57,13 @@
 
         {{!-- Landing layout --}}
         {{#match headerStyle "Landing"}}
-            <h1 class="gh-header-title is-title">{{#if @custom.header_text}}{{@custom.header_text}}{{else}}{{@site.description}}{{/if}}</h1>
+            <h1 class="gh-header-title is-title">{{@site.description}}</h1>
             {{> "email-subscription" email_field_id="header-email"}}
         {{/match}}
 
         {{!-- Search layout --}}
         {{#match headerStyle "Search"}}
-            <h1 class="gh-header-title is-title">{{#if @custom.header_text}}{{@custom.header_text}}{{else}}{{@site.description}}{{/if}}</h1>
+            <h1 class="gh-header-title is-title">{{@site.description}}</h1>
             <form class="gh-form">
                 {{> "icons/search"}}
                 <button class="gh-form-input" data-ghost-search>Search posts, tags and authors</button>

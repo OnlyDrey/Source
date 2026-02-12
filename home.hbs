@@ -1,12 +1,26 @@
 {{!< default}}
-{{!-- The tag above means: insert everything in this file into the body of the default.hbs template --}}
+{{!-- Fallback homepage (index.hbs takes precedence) --}}
 
-{{> "components/header" headerStyle=@custom.header_style}}
+<main class="gh-main px-6 py-12">
+    <div class="max-w-7xl mx-auto">
+        {{#if @custom.show_hero_title}}
+            <header class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                    {{#if @site.description}}
+                        {{@site.description}}
+                    {{else}}
+                        {{@site.title}}
+                    {{/if}}
+                </h1>
+            </header>
+        {{/if}}
 
-{{#match @custom.header_style "!=" "Highlight"}}
-    {{> "components/featured" showFeatured=@custom.show_featured_posts limit=4}}
-{{/match}}
+        <div class="post-grid-{{@custom.posts_per_row}}">
+            {{#foreach posts}}
+                {{> "post-card"}}
+            {{/foreach}}
+        </div>
 
-{{> "components/cta"}}
-
-{{> "components/post-list" feed="home" postFeedStyle=@custom.post_feed_style showTitle=true showSidebar=@custom.show_publication_info_sidebar}}
+        {{> "pagination"}}
+    </div>
+</main>
